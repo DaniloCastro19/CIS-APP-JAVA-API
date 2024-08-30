@@ -1,6 +1,6 @@
 # Capstone Project: Crowdsourced Ideation Solution (CIS)
 
-## Index
+## Table of Contents
 1. [Project Description](#project-description)
  - [Key Features](#key-features)
 2. [Project Phases](#project-phases)
@@ -23,7 +23,6 @@ Welcome to our Capstone Project. This project focuses on developing a Crowdsourc
 - Organization of ideas by topics
 - Proposal of innovative ideas
 - Voting system for ideas
-
 
 ## Project Phases
 
@@ -61,6 +60,9 @@ Welcome to our Capstone Project. This project focuses on developing a Crowdsourc
 - Provide a robust platform for collaborative ideation
 
 ## Meet the Team
+
+### Development Team
+
 * Aldo Ochoa Condori
 * Andres Rojas Espinoza
 * Abigail Suarez Argote
@@ -68,4 +70,14 @@ Welcome to our Capstone Project. This project focuses on developing a Crowdsourc
 * Damon Fernandez Claros
 * Danilo A. Castro De la Hoz
 * Sofia Porras Forero
-* Ing. Ludwin Rivera Pilco (Product Owner)
+
+### Product Owner
+
+* Ing. Ludwin Rivera Pilco 
+
+### Stakeholder
+
+* Ing. Gabriel León Paredes
+
+
+
