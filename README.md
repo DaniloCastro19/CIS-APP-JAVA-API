@@ -2,12 +2,12 @@
 
 ## Table of Contents
 1. [Project Description](#project-description)
- - [Key Features](#key-features)
+- [Key Features](#key-features)
 2. [Project Phases](#project-phases)
 
- -  [Phase 1: Legacy System Support](#phase-1-legacy-system-support)
- -  [Phase 2: CIS API Implementation](#phase-2-cis-api-implementation)
- -  [Phase 3: Infrastructure Changes](#phase-3-infrastructure-changes)
+-  [Phase 1: Legacy System Support](#phase-1-legacy-system-support)
+-  [Phase 2: CIS API Implementation](#phase-2-cis-api-implementation)
+-  [Phase 3: Infrastructure Changes](#phase-3-infrastructure-changes)
 
 3. [Technologies Used](#technologies-used)
 
@@ -73,7 +73,7 @@ Welcome to our Capstone Project. This project focuses on developing a Crowdsourc
 
 ### Product Owner
 
-* Ing. Ludwin Rivera Pilco 
+* Ing. Ludwin Rivera Pilco
 
 ### Stakeholder
 
