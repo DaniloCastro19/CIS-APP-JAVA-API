@@ -37,4 +37,14 @@ public class UserController {
         Optional<UserModel> user = userService.getByLogin(login);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserModel> updateUser(@PathVariable String id, @RequestBody UserModel userDetails) {
+        UserModel updatedUser = userService.updateUser(id, userDetails);
+        if (updatedUser != null) {
+            return ResponseEntity.ok(updatedUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
