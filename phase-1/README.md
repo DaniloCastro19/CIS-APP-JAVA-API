@@ -21,3 +21,42 @@ And then try to run the `App.java`
 Try to make sure you have maven already installed. You can check this with:
 
 `mvn --version`
+
+# Users API Documentation
+
+## PUT /api/users/{id}
+
+Updates an existing user's information.
+
+### Request
+
+- Method: PUT
+- URL: `http://localhost:4000/api/users/{id}`
+- Content-Type: application/json
+
+#### Request Body
+
+```json
+{
+  "name": "Updated Name",
+  "login": "updated_login",
+  "password": "updated_password"
+}
+```
+
+### Response
+
+#### Successful Update (200 OK)
+
+```json
+{
+  "id": "user_id",
+  "name": "Updated Name",
+  "login": "updated_login",
+  "password": "updated_password"
+}
+```
+
+#### User Not Found (404 Not Found)
+
+No body returned for this status.
