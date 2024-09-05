@@ -23,7 +23,7 @@ public class UserModel {
     private String name;
 
     @NotEmpty(message = "Login Can't be blank")
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 20, unique = true)
     private String login;
 
     @NotEmpty(message = "Password Can't be blank")
