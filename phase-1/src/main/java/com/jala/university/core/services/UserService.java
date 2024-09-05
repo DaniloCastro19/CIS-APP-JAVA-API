@@ -6,10 +6,18 @@ import com.jala.university.data.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class UserService {
     UserRepository userRepository;
+
+    public ArrayList<UserModel> getUsers(){
+        return (ArrayList<UserModel>) userRepository.findAll();
+    }
 
     public UserModel createUser(UserModel request){
         UserModel newUser = new UserModel();
@@ -18,5 +26,13 @@ public class UserService {
         newUser.setPassword(request.getPassword());
 
         return userRepository.save(newUser);
+    }
+
+    public Optional<UserModel> getById(String id){
+        return userRepository.findById(id);
+    }
+
+    public Optional<UserModel> getByLogin(String login) {
+        return userRepository.findByLogin(login);
     }
 }
