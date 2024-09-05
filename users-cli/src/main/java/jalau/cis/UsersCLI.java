@@ -1,4 +1,4 @@
-package com.jala.university.cis;
+package jalau.cis;
 
 import jalau.cis.commands.UsersCommand;
 import picocli.CommandLine;
