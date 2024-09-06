@@ -176,6 +176,32 @@ Updates an existing user's information.
 
 No body returned for this status.
 
+## DELETE /api/users/{id}
+
+Deletes an existing user's information
+
+### Request
+
+- Method: DELETE
+- URL: `http://localhost:4000/api/users/{id}`
+
+### Response
+
+#### Successful Update (200 OK)
+
+```json
+{
+  "message": "eliminacion exitosa"
+}
+```
+
+#### User Not Found (404 Not Found)
+```json
+{
+  "message": "User not found"
+}
+```
+
 ### Notes
 
 - All fields in the request body are optional for PUT. Only the provided fields will be updated.
