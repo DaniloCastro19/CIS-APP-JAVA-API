@@ -1,13 +1,11 @@
 package com.jala.university.core.models;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
-
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -18,18 +16,16 @@ public class UserModel {
     @Column(unique = true, nullable = false, length = 36)
     private String id;
 
-    @NotEmpty(message = "Name Can't be blank")
     @Column(nullable = false, length = 200)
     private String name;
 
-    @NotEmpty(message = "Login Can't be blank")
     @Column(nullable = false, length = 20, unique = true)
     private String login;
 
-    @NotEmpty(message = "Password Can't be blank")
     @Column(nullable = false, length = 100)
     private String password;
 
+    // Getters and Setters
 
     public String getName() {
         return name;

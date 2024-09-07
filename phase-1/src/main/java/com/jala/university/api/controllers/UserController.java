@@ -1,6 +1,7 @@
 package com.jala.university.api.controllers;
 
 import com.jala.university.core.models.UserModel;
+import com.jala.university.core.security.PassEncoder;
 import com.jala.university.core.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ public class UserController {
 
     @PostMapping()
     public UserModel createUser(@RequestBody UserModel user){
+        user.setPassword(PassEncoder.passwordEncoder().encode(user.getPassword()));
         return userService.createUser(user);
     }
 
