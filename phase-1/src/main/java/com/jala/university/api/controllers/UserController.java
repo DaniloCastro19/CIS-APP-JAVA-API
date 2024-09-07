@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
 
 @RestController
@@ -45,6 +46,20 @@ public class UserController {
             return ResponseEntity.ok(updatedUser);
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteUser(@PathVariable String id) {
+        boolean isDeleted = userService.deleteUser(id);
+        if (isDeleted) {
+            return ResponseEntity.ok().body(new HashMap<String, String>() {{
+                put("message", "user deleted successfully");
+            }});
+        } else {
+            return ResponseEntity.status(404).body(new HashMap<String, String>() {{
+                put("message", "User not found");
+            }});
         }
     }
 }
