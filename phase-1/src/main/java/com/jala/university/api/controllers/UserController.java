@@ -25,14 +25,6 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO) {
-        userDTO.setPassword(PassEncoder.passwordEncoder().encode(userDTO.getPassword()));
-        UserDTO registeredUser = userService.registerUser(userDTO);
-        String responseMessage = "User " + registeredUser.getLogin() + " registered successfully with ID: " + registeredUser.getId();
-        return ResponseEntity.ok(responseMessage);
-    }
-
     @PostMapping
     public UserDTO createUser(@RequestBody UserDTO userDTO) {
         userDTO.setPassword(PassEncoder.passwordEncoder().encode(userDTO.getPassword()));

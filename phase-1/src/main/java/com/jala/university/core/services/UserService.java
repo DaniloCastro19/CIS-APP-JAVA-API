@@ -32,11 +32,6 @@ public class UserService {
         return userMapper.toDTO(userRepository.save(user));
     }
 
-    public UserDTO registerUser(UserDTO userDTO) {
-        UserModel user = userMapper.toModel(userDTO);
-        return userMapper.toDTO(userRepository.save(user));
-    }
-
     public Optional<UserDTO> getById(String id) {
         return userRepository.findById(id).map(userMapper::toDTO);
     }
