@@ -1,7 +1,6 @@
 package com.jala.university.core.services;
 
 import com.jala.university.core.utils.UserMapper;
-import com.jala.university.core.utils.UserValidator;
 import com.jala.university.data.dto.UserDTO;
 import com.jala.university.data.models.UserModel;
 import com.jala.university.data.repositories.UserRepository;

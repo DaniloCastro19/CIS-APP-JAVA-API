@@ -1,11 +1,10 @@
 package com.jala.university.api.controllers;
 
+import com.jala.university.core.security.PassEncoder;
 import com.jala.university.core.services.UserService;
-import com.jala.university.core.utils.UserMapper;
 import com.jala.university.data.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,12 +14,10 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
@@ -30,7 +27,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO) {
-        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        userDTO.setPassword(PassEncoder.passwordEncoder().encode(userDTO.getPassword()));
         UserDTO registeredUser = userService.registerUser(userDTO);
         String responseMessage = "User " + registeredUser.getLogin() + " registered successfully with ID: " + registeredUser.getId();
         return ResponseEntity.ok(responseMessage);
@@ -38,7 +35,7 @@ public class UserController {
 
     @PostMapping
     public UserDTO createUser(@RequestBody UserDTO userDTO) {
-        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        userDTO.setPassword(PassEncoder.passwordEncoder().encode(userDTO.getPassword()));
         return userService.createUser(userDTO);
     }
 
@@ -59,7 +56,7 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable String id, @RequestBody UserDTO userDTO) {
         if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
-            userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            userDTO.setPassword(PassEncoder.passwordEncoder().encode(userDTO.getPassword()));
         }
 
         return userService.updateUser(id, userDTO)
