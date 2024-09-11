@@ -67,7 +67,6 @@ Welcome to our Capstone Project. This project focuses on developing a Crowdsourc
 * Andres Rojas Espinoza
 * Abigail Suarez Argote
 * Cristian Manrique Castaño
-* Damon Fernandez Claros
 * Danilo A. Castro De la Hoz
 * Sofia Porras Forero
 
@@ -78,6 +77,3 @@ Welcome to our Capstone Project. This project focuses on developing a Crowdsourc
 ### Stakeholder
 
 * Ing. Gabriel León Paredes
-
-
-
