@@ -1,4 +1,6 @@
-# PHASE 1
+# Java Users API
+
+An API to manage Users. This API must work with the same User CLI provided. The project seeks the development of a modern API for the users of the system allowed to authenticate and to facilitate its consumption for subsequent reuse.
 
 # Prerequisites:
 - Maven 3.9.9 
