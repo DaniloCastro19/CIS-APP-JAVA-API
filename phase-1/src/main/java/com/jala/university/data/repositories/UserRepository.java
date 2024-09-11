@@ -1,7 +1,7 @@
 package com.jala.university.data.repositories;
 
 
-import com.jala.university.core.models.UserModel;
+import com.jala.university.data.models.UserModel;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
