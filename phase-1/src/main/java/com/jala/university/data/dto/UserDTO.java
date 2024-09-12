@@ -1,5 +1,7 @@
 package com.jala.university.data.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +15,15 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class UserDTO implements Serializable {
     private String id;
+
+    @NotBlank(message = "Name is required")
+    @Size(max = 30, message = "Name cannot be more than 30 characters")
     private String name;
+
+    @NotBlank(message = "Login is required")
     private String login;
+
+    @NotBlank(message = "Password is required")
     private String password;
 
     @Override

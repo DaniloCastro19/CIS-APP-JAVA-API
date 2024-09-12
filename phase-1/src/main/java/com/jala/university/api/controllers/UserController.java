@@ -3,7 +3,9 @@ package com.jala.university.api.controllers;
 import com.jala.university.core.security.PassEncoder;
 import com.jala.university.core.services.UserService;
 import com.jala.university.data.dto.UserDTO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,9 +28,14 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDTO createUser(@RequestBody UserDTO userDTO) {
-        userDTO.setPassword(PassEncoder.passwordEncoder().encode(userDTO.getPassword()));
-        return userService.createUser(userDTO);
+    public ResponseEntity<Object> createUser(@Valid @RequestBody UserDTO userDTO) {
+        try {
+            UserDTO createdUser = userService.createUser(userDTO);
+            return ResponseEntity.ok(createdUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Unexpected error occurred");
+        }
     }
 
     @GetMapping("/{id}")
