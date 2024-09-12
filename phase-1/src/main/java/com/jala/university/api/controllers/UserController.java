@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
 
@@ -58,6 +59,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable String id) {
+        logger.info("Deleting user with ID: {}", id);
         boolean isDeleted = userService.deleteUser(id);
         if (isDeleted) {
             return ResponseEntity.ok().body(java.util.Map.of("message", "User deleted successfully"));
