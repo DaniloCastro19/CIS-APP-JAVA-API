@@ -11,6 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,6 +48,7 @@ class UserServiceTest {
         userDTO.setPassword("pass123");
     }
 
+    // User Post
     @Test
     void testCreateUserSuccess() {
         when(userMapper.toModel(any(UserDTO.class))).thenReturn(userModel);
@@ -110,15 +113,76 @@ class UserServiceTest {
         verify(userRepository, times(1)).save(any(UserModel.class));
     }
 
+    // User Get
+    @Test
+    void testGetUsers() {
+        UserModel userModel2 = new UserModel();
+        userModel2.setId("test-456");
+        userModel2.setName("Good Graces");
+        userModel2.setLogin("Taste");
+        userModel2.setPassword("pass456");
+
+        UserDTO userDTO2 = new UserDTO();
+        userDTO2.setId("test-456");
+        userDTO2.setName("Good Graces");
+        userDTO2.setLogin("Taste");
+        userDTO2.setPassword("pass456");
+
+        when(userRepository.findAll()).thenReturn(Arrays.asList(userModel, userModel2));
+        when(userMapper.toDTO(userModel)).thenReturn(userDTO);
+        when(userMapper.toDTO(userModel2)).thenReturn(userDTO2);
+
+        List<UserDTO> users = userService.getUsers();
+
+        assertNotNull(users);
+        assertEquals(2, users.size());
+        assertEquals("Baby Shark", users.get(0).getName());
+        assertEquals("Good Graces", users.get(1).getName());
+        verify(userRepository, times(1)).findAll();
+    }
+
     @Test
     void testGetById() {
-        when(userRepository.findById("prueba-123")).thenReturn(Optional.of(userModel));
+        when(userRepository.findById("test-123")).thenReturn(Optional.of(userModel));
         when(userMapper.toDTO(userModel)).thenReturn(userDTO);
 
-        Optional<UserDTO> result = userService.getById("prueba-123");
+        Optional<UserDTO> result = userService.getById("test-123");
 
         assertTrue(result.isPresent());
         assertEquals("Baby Shark", result.get().getName());
-        verify(userRepository, times(1)).findById("prueba-123");
+        verify(userRepository, times(1)).findById("test-123");
+    }
+
+    @Test
+    void testGetByIdNotFound() {
+        when(userRepository.findById("UnknownId")).thenReturn(Optional.of(userModel));
+
+        Optional<UserDTO> result = userService.getById("UnknownId");
+
+        assertFalse(result.isPresent());
+        verify(userRepository, times(1)).findById("UnknownId");
+    }
+
+    @Test
+    void testGetByLogin() {
+        when(userRepository.findByLogin("Shark")).thenReturn(Optional.of(userModel));
+        when(userMapper.toDTO(userModel)).thenReturn(userDTO);
+
+        Optional<UserDTO> result = userService.getByLogin("Shark");
+
+        assertTrue(result.isPresent());
+        assertEquals("Baby Shark", result.get().getName());
+        assertEquals("Shark", result.get().getLogin());
+        verify(userRepository, times(1)).findByLogin("Shark");
+    }
+
+    @Test
+    void testGetByLoginNotFound() {
+        when(userRepository.findByLogin("UnknownLogin")).thenReturn(Optional.empty());
+
+        Optional<UserDTO> result = userService.getByLogin("UnknownLogin");
+
+        assertFalse(result.isPresent());
+        verify(userRepository, times(1)).findByLogin("UnknownLogin");
     }
 }
