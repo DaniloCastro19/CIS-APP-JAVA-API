@@ -126,7 +126,7 @@ class UserServiceTest {
         userDTO2.setId("test-456");
         userDTO2.setName("Good Graces");
         userDTO2.setLogin("Taste");
-        userDTO2.setPassword("pass456");
+        userDTO2.setPassword("please456");
 
         when(userRepository.findAll()).thenReturn(Arrays.asList(userModel, userModel2));
         when(userMapper.toDTO(userModel)).thenReturn(userDTO);
