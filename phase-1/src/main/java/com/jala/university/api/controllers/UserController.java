@@ -29,13 +29,8 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<Object> createUser(@Valid @RequestBody UserDTO userDTO) {
-        try {
-            UserDTO createdUser = userService.createUser(userDTO);
-            return ResponseEntity.ok(createdUser);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Unexpected error occurred");
-        }
+        UserDTO createdUser = userService.createUser(userDTO);
+        return ResponseEntity.ok(createdUser);
     }
 
     @GetMapping("/{id}")
