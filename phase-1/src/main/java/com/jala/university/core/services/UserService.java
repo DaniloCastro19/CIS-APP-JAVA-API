@@ -3,33 +3,28 @@ package com.jala.university.core.services;
 import com.jala.university.core.utils.UserMapper;
 import com.jala.university.data.dto.UserDTO;
 import com.jala.university.data.models.UserModel;
-import com.jala.university.data.repositories.MySqlRepository;
-import com.jala.university.data.repositories.MySqlUserRepositoryImpl;
-import com.jala.university.data.repositories.Repository;
 import com.jala.university.data.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class UserService {
     private final UserMapper userMapper;
-    private final Repository<UserModel, String, String> userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserService(UserMapper userMapper, MySqlUserRepositoryImpl mySqlRepository, @Value("${database.type}") String databaseType){
+    public UserService(UserMapper userMapper,UserRepository userRepository){
         this.userMapper = userMapper;
-        this.userRepository = new Repository<>(mySqlRepository, databaseType);
+        this.userRepository = userRepository;
     }
 
     public List<UserDTO> getUsers() {
-        return StreamSupport.stream(userRepository.findAllUsers().spliterator(), false)
+        return userRepository.getUsers().stream()
                 .map(userMapper::toDTO)
                 .collect(Collectors.toList());
     }
@@ -37,30 +32,30 @@ public class UserService {
     @Transactional
     public UserDTO createUser(UserDTO userDTO) {
         UserModel user = userMapper.toModel(userDTO);
-        return userMapper.toDTO(userRepository.save(user));
+        return userMapper.toDTO(userRepository.createUser(user));
     }
 
     public Optional<UserDTO> getById(String id) {
-        return userRepository.findById(id).map(userMapper::toDTO);
+        return userRepository.getUserById(id).map(userMapper::toDTO);
     }
 
     public Optional<UserDTO> getByLogin(String login) {
-        return userRepository.findByLogin(login).map(userMapper::toDTO);
+        return userRepository.getUserByLogin(login).map(userMapper::toDTO);
     }
 
     @Transactional
     public Optional<UserDTO> updateUser(String id, UserDTO userDetails) {
-        return userRepository.findById(id)
+        return userRepository.getUserById(id)
                 .map(existingUser -> {
                     UserModel updatedUser = userMapper.toModel(userDetails);
                     updatedUser.setId(existingUser.getId());
-                    return userMapper.toDTO(userRepository.updateUser(updatedUser));
+                    return userMapper.toDTO(userRepository.updateUserByID(updatedUser));
                 });
     }
 
     @Transactional
     public boolean deleteUser(String id) {
-        Optional<UserModel> user = userRepository.findById(id);
+        Optional<UserModel> user = userRepository.getUserById(id);
         if (user.isPresent()) {
             UserModel existingUser = user.get();
             userRepository.deleteUser(existingUser);

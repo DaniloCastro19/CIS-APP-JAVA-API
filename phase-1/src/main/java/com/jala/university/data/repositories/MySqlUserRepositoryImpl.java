@@ -3,14 +3,15 @@ package com.jala.university.data.repositories;
 import com.jala.university.data.models.UserModel;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.apache.catalina.User;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class MySqlUserRepositoryImpl implements MySqlRepository<UserModel, String, String>{
+@ConditionalOnProperty(name= "database.type", havingValue = "mysql")
+public class MySqlUserRepositoryImpl implements UserRepository{
 
     @PersistenceContext
     private EntityManager entityManager;

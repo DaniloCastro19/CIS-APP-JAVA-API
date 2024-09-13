@@ -1,14 +1,15 @@
 package com.jala.university.data.repositories;
-
+import java.util.List;
 
 import com.jala.university.data.models.UserModel;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
-public interface UserRepository extends CrudRepository<UserModel, String> {
-    public abstract Optional<UserModel> findById(String id);
-    public abstract Optional<UserModel> findByLogin(String login);
+public interface UserRepository{
+    UserModel createUser(UserModel user);
+    Optional<UserModel> getUserByLogin(String login);
+    Optional<UserModel> getUserById(String id);
+    List<UserModel> getUsers();
+    UserModel updateUserByID(UserModel user);
+    void deleteUser(UserModel user);
 }
