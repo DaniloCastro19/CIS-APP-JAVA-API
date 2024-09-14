@@ -1,18 +1,9 @@
-name: Users API Pipeline
+stages: 
+  - build
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Verify Java
-        run: java -version
-
-      - name: Verify Maven
-        run: mvn -v
-
-      - name: Build with Maven
-        run: mvn clean install
-
-      - name: Run Unit Tests
-        run: mvn test
+create_file:
+  image: alpine
+  stage: build
+  script: 
+    - echo "Building..."
+    - mkdir build
