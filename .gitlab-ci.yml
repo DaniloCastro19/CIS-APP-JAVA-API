@@ -6,27 +6,25 @@ stages:
 default:
   image: ubuntu-latest
 
+on: 
+  pull_Request:
+    branches:
+      - develop
+      - main
 
 build_app:
   stage: build
   script:
     - mvn clean install
-  only:
-    - develop
-    - main
+
 
 run_unit_tests:
   stage: test
   script:
     - mvn test
-  only:
-    - develop
-    - main
+
 
 verify_maven:
   stage: maven
   script:
     - mvn -v
-  only:
-    - develop
-    - main
