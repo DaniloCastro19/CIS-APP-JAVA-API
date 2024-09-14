@@ -1,0 +1,18 @@
+name: Users API Pipeline
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verify Java
+        run: java -version
+
+      - name: Verify Maven
+        run: mvn -v
+
+      - name: Build with Maven
+        run: mvn clean install
+
+      - name: Run Unit Tests
+        run: mvn test
