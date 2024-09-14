@@ -4,7 +4,7 @@ stages:
   - maven
 
 default:
-  image: alpine
+  image: alpine/maven:3.9.9-jdk-21
 
 
 build_app:
