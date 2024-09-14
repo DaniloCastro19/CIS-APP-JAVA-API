@@ -1,0 +1,83 @@
+2024-09-13T19:40:23.139-05:00  INFO 10832 --- [main] com.jala.university.App                  : Starting App using Java 21.0.2 with PID 10832 (D:\Semestre IV\SD3\CIS-APP\cis_application\phase-1\target\classes started by root in D:\Semestre IV\SD3\CIS-APP\cis_application\phase-1)
+2024-09-13T19:40:23.154-05:00  INFO 10832 --- [main] com.jala.university.App                  : No active profile set, falling back to 1 default profile: "default"
+2024-09-13T19:40:24.519-05:00  INFO 10832 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-13T19:40:24.561-05:00  INFO 10832 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 28 ms. Found 0 JPA repository interfaces.
+2024-09-13T19:40:25.562-05:00  INFO 10832 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 4000 (http)
+2024-09-13T19:40:25.581-05:00  INFO 10832 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-09-13T19:40:25.581-05:00  INFO 10832 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.28]
+2024-09-13T19:40:25.686-05:00  INFO 10832 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-09-13T19:40:25.687-05:00  INFO 10832 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2349 ms
+2024-09-13T19:40:25.981-05:00  INFO 10832 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-13T19:40:26.075-05:00  INFO 10832 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2024-09-13T19:40:26.133-05:00  INFO 10832 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-09-13T19:40:26.556-05:00  INFO 10832 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-09-13T19:40:26.597-05:00  INFO 10832 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-09-13T19:40:27.206-05:00  INFO 10832 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@72324965
+2024-09-13T19:40:27.209-05:00  INFO 10832 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-09-13T19:40:28.509-05:00  INFO 10832 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-09-13T19:40:28.616-05:00  INFO 10832 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-13T19:40:28.922-05:00  WARN 10832 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-13T19:40:29.112-05:00  INFO 10832 --- [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2024-09-13T19:40:30.087-05:00  INFO 10832 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 4000 (http) with context path '/'
+2024-09-13T19:40:30.102-05:00  INFO 10832 --- [main] com.jala.university.App                  : Started App in 8.104 seconds (process running for 9.012)
+2024-09-13T19:41:25.563-05:00  INFO 10832 --- [http-nio-4000-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-09-13T19:41:25.564-05:00  INFO 10832 --- [http-nio-4000-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-09-13T19:41:25.567-05:00  INFO 10832 --- [http-nio-4000-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2024-09-13T19:41:25.936-05:00  INFO 10832 --- [http-nio-4000-exec-2] c.j.u.api.controllers.UserController     : Fetching all users
+2024-09-13T19:41:45.594-05:00  INFO 10832 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-13T19:41:45.598-05:00  INFO 10832 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-09-13T19:41:45.608-05:00  INFO 10832 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-09-13T19:45:20.415-05:00  INFO 24796 --- [main] com.jala.university.App                  : Starting App using Java 21.0.2 with PID 24796 (D:\Semestre IV\SD3\CIS-APP\cis_application\phase-1\target\classes started by root in D:\Semestre IV\SD3\CIS-APP\cis_application\phase-1)
+2024-09-13T19:45:20.420-05:00  INFO 24796 --- [main] com.jala.university.App                  : No active profile set, falling back to 1 default profile: "default"
+2024-09-13T19:45:21.714-05:00  INFO 24796 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-13T19:45:21.754-05:00  INFO 24796 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 26 ms. Found 0 JPA repository interfaces.
+2024-09-13T19:45:22.739-05:00  INFO 24796 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 4000 (http)
+2024-09-13T19:45:22.758-05:00  INFO 24796 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-09-13T19:45:22.759-05:00  INFO 24796 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.28]
+2024-09-13T19:45:22.843-05:00  INFO 24796 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-09-13T19:45:22.843-05:00  INFO 24796 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2342 ms
+2024-09-13T19:45:23.138-05:00  INFO 24796 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-13T19:45:23.230-05:00  INFO 24796 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2024-09-13T19:45:23.285-05:00  INFO 24796 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-09-13T19:45:23.731-05:00  INFO 24796 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-09-13T19:45:23.766-05:00  INFO 24796 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-09-13T19:45:24.259-05:00  INFO 24796 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@54bb1194
+2024-09-13T19:45:24.262-05:00  INFO 24796 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-09-13T19:45:25.566-05:00  INFO 24796 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-09-13T19:45:25.645-05:00  INFO 24796 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-13T19:45:25.936-05:00  WARN 24796 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-13T19:45:26.132-05:00  INFO 24796 --- [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2024-09-13T19:45:26.963-05:00  INFO 24796 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 4000 (http) with context path '/'
+2024-09-13T19:45:26.980-05:00  INFO 24796 --- [main] com.jala.university.App                  : Started App in 7.4 seconds (process running for 8.18)
+2024-09-13T19:46:26.676-05:00  INFO 24796 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-13T19:46:26.679-05:00  INFO 24796 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-09-13T19:46:26.699-05:00  INFO 24796 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-09-13T20:22:00.617-05:00  INFO 6804 --- [main] com.jala.university.App                  : Starting App using Java 21.0.2 with PID 6804 (D:\Semestre IV\SD3\CIS-APP\cis_application\target\classes started by root in D:\Semestre IV\SD3\CIS-APP\cis_application)
+2024-09-13T20:22:00.621-05:00  INFO 6804 --- [main] com.jala.university.App                  : No active profile set, falling back to 1 default profile: "default"
+2024-09-13T20:22:01.754-05:00  INFO 6804 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-13T20:22:01.804-05:00  INFO 6804 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 32 ms. Found 0 JPA repository interfaces.
+2024-09-13T20:22:02.773-05:00  INFO 6804 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 4000 (http)
+2024-09-13T20:22:02.797-05:00  INFO 6804 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-09-13T20:22:02.798-05:00  INFO 6804 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.28]
+2024-09-13T20:22:02.897-05:00  INFO 6804 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-09-13T20:22:02.898-05:00  INFO 6804 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2218 ms
+2024-09-13T20:22:03.218-05:00  INFO 6804 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-13T20:22:03.323-05:00  INFO 6804 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2024-09-13T20:22:03.375-05:00  INFO 6804 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-09-13T20:22:03.850-05:00  INFO 6804 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-09-13T20:22:03.892-05:00  INFO 6804 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-09-13T20:22:04.496-05:00  INFO 6804 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@45297e7
+2024-09-13T20:22:04.498-05:00  INFO 6804 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-09-13T20:22:05.732-05:00  INFO 6804 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-09-13T20:22:05.812-05:00  INFO 6804 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-13T20:22:06.079-05:00  WARN 6804 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-13T20:22:06.245-05:00  INFO 6804 --- [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name userDetailsService
+2024-09-13T20:22:07.057-05:00  INFO 6804 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 4000 (http) with context path '/'
+2024-09-13T20:22:07.073-05:00  INFO 6804 --- [main] com.jala.university.App                  : Started App in 7.136 seconds (process running for 7.792)
+2024-09-13T20:22:11.563-05:00  INFO 6804 --- [http-nio-4000-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-09-13T20:22:11.563-05:00  INFO 6804 --- [http-nio-4000-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-09-13T20:22:11.566-05:00  INFO 6804 --- [http-nio-4000-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2024-09-13T20:22:11.883-05:00  INFO 6804 --- [http-nio-4000-exec-2] c.j.u.api.controllers.UserController     : Fetching all users
+2024-09-13T21:53:54.297-05:00  INFO 6804 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-13T21:53:54.318-05:00  INFO 6804 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-09-13T21:53:54.327-05:00  INFO 6804 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

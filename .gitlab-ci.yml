@@ -1,0 +1,31 @@
+stages: 
+  - build
+  - test
+  - maven
+
+default:
+  image: jelastic/maven:3.9.5-openjdk-21
+
+
+build_app:
+  stage: build
+  script:
+    - mvn clean install
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+
+run_unit_tests:
+  stage: test
+  script:
+    - mvn test
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+
+verify_maven:
+  stage: maven
+  script:
+    - mvn -v
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'

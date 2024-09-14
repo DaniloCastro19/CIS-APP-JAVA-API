@@ -1,79 +1,212 @@
-# Capstone Project: Crowdsourced Ideation Solution (CIS)
+# Java Users API
 
-## Table of Contents
-1. [Project Description](#project-description)
-- [Key Features](#key-features)
-2. [Project Phases](#project-phases)
+An API to manage Users. This API must work with the same User CLI provided. The project seeks the development of a modern API for the users of the system allowed to authenticate and to facilitate its consumption for subsequent reuse.
 
--  [Phase 1: Legacy System Support](#phase-1-legacy-system-support)
--  [Phase 2: CIS API Implementation](#phase-2-cis-api-implementation)
--  [Phase 3: Infrastructure Changes](#phase-3-infrastructure-changes)
+# Prerequisites:
+- Maven 3.9.9 
+- JDK 21
 
-3. [Technologies Used](#technologies-used)
+## Run project
+By the moment, to run the project it's highly recommended to configurate the App launch in the Intellij Idea settings:
 
-4. [Project Objectives](#project-objectives)
+![run_config_img](./public/img/run_config.png)
 
-5. [Meet the Team](#meet-the-team)
 
-## Project Description
+## Maven dependency installation
 
-Welcome to our Capstone Project. This project focuses on developing a Crowdsourced Ideation Solution (CIS). The CIS is a platform for collective creativity where users can propose ideas and vote for the best ones.
+If for some reason you editor doesn't install the dependencies or they aren't in the project, you can try this:
 
-### Key Features:
-- Organization of ideas by topics
-- Proposal of innovative ideas
-- Voting system for ideas
+`mvn wrapper:wrapper`
 
-## Project Phases
+And then try to run the `App.java`
 
-### Phase 1: Legacy System Support
-- Integration with Java-based CLI legacy system
-- Compatibility with existing MySQL database
-- Development of modern user API in Java
-- Implementation of CRUD operations for user data
-- Basic security with user authentication
+Try to make sure you have maven already installed. You can check this with:
 
-### Phase 2: CIS API Implementation
-- Development of modern CIS API using C#
-- Extension of the database to include topics and ideas
-- Integration with the User API from Phase 1
-- Implementation of CRUD operations for topics, ideas, and votes
+`mvn --version`
 
-### Phase 3: Infrastructure Changes
-- Migration from RDBMS to MongoDB (NoSQL)
-- Adaptation of APIs for compatibility with the new database
-- Migration of existing data
-- Maintenance of system performance and functionality
+# Users API Documentation
 
-## Technologies Used
+## GET /api/users
 
-- Java (Phase 1)
-- C# (Phase 2)
-- MySQL (Phases 1 and 2)
-- MongoDB (Phase 3)
-- RESTful APIs
+Retrieves a list of all users.
 
-## Project Objectives
-- Develop a solution that integrates legacy systems with modern technologies
-- Implement an agile software development lifecycle
-- Maintain data consistency and interoperability between systems
-- Provide a robust platform for collaborative ideation
+### Request
 
-## Meet the Team
+- Method: GET
+- URL: `http://localhost:4000/api/users`
 
-### Development Team
+### Response
 
-* Aldo Ochoa Condori
-* Andres Rojas Espinoza
-* Abigail Suarez Argote
-* Cristian Manrique Castaño
-* Danilo A. Castro De la Hoz
-* Sofia Porras Forero
+#### Successful Request (200 OK)
 
-### Product Owner
+```json
+[
+  {
+    "id": "user_id_1",
+    "name": "User Name 1",
+    "login": "user_login_1",
+    "password": "hashed_password_1"
+  },
+  {
+    "id": "user_id_2",
+    "name": "User Name 2",
+    "login": "user_login_2",
+    "password": "hashed_password_2"
+  }
+]
+```
 
-* Ing. Ludwin Rivera Pilco
+## POST /api/users
 
-### Stakeholder
+Creates a new user.
 
-* Ing. Gabriel León Paredes
+### Request
+
+- Method: POST
+- URL: `http://localhost:4000/api/users`
+- Content-Type: application/json
+
+#### Request Body
+
+```json
+{
+  "name": "New User",
+  "login": "new_user_login",
+  "password": "new_user_password"
+}
+```
+
+### Response
+
+#### Successful Creation (200 OK)
+
+```json
+{
+  "id": "generated_user_id",
+  "name": "New User",
+  "login": "new_user_login",
+  "password": "hashed_password"
+}
+```
+
+## GET /api/users/{id}
+
+Retrieves a specific user by ID.
+
+### Request
+
+- Method: GET
+- URL: `http://localhost:4000/api/users/{id}`
+
+### Response
+
+#### Successful Request (200 OK)
+
+```json
+{
+  "id": "requested_user_id",
+  "name": "User Name",
+  "login": "user_login",
+  "password": "hashed_password"
+}
+```
+
+#### User Not Found (404 Not Found)
+
+No body returned for this status.
+
+## GET /api/users/login/{login}
+
+Retrieves a specific user by login.
+
+### Request
+
+- Method: GET
+- URL: `http://localhost:4000/api/users/login/{login}`
+
+### Response
+
+#### Successful Request (200 OK)
+
+```json
+{
+  "id": "user_id",
+  "name": "User Name",
+  "login": "requested_login",
+  "password": "hashed_password"
+}
+```
+
+#### User Not Found (404 Not Found)
+
+No body returned for this status.
+
+## PUT /api/users/{id}
+
+Updates an existing user's information.
+
+### Request
+
+- Method: PUT
+- URL: `http://localhost:4000/api/users/{id}`
+- Content-Type: application/json
+
+#### Request Body
+
+```json
+{
+  "name": "Updated Name",
+  "login": "updated_login",
+  "password": "updated_password"
+}
+```
+
+### Response
+
+#### Successful Update (200 OK)
+
+```json
+{
+  "id": "user_id",
+  "name": "Updated Name",
+  "login": "updated_login",
+  "password": "updated_password"
+}
+```
+
+#### User Not Found (404 Not Found)
+
+No body returned for this status.
+
+## DELETE /api/users/{id}
+
+Deletes an existing user's information
+
+### Request
+
+- Method: DELETE
+- URL: `http://localhost:4000/api/users/{id}`
+
+### Response
+
+#### Successful Update (200 OK)
+
+```json
+{
+  "message": "eliminacion exitosa"
+}
+```
+
+#### User Not Found (404 Not Found)
+```json
+{
+  "message": "User not found"
+}
+```
+
+### Notes
+
+- All fields in the request body are optional for PUT. Only the provided fields will be updated.
+- The user's ID cannot be changed.
+- Updates are immediately reflected in the system.
+- For security reasons, consider not returning the password field in responses, even if it's hashed.
