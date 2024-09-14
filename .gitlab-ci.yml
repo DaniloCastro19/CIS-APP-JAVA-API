@@ -4,7 +4,7 @@ stages:
   - maven
 
 default:
-  image: maven:3.9.9-jdk-21
+  image: maven:3.9.4-jdk-21
 
 
 build_app:
