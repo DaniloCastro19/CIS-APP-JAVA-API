@@ -52,7 +52,7 @@ class UserServiceTest {
     @Test
     void testCreateUserSuccess() {
         when(userMapper.toModel(any(UserDTO.class))).thenReturn(userModel);
-        when(userRepository.save(any(UserModel.class))).thenReturn(userModel);
+        when(userRepository.createUser(any(UserModel.class))).thenReturn(userModel);
         when(userMapper.toDTO(any(UserModel.class))).thenReturn(userDTO);
 
         UserDTO createdUser = userService.createUser(userDTO);
@@ -61,7 +61,7 @@ class UserServiceTest {
         assertEquals("Baby Shark", createdUser.getName());
         assertEquals("Shark", createdUser.getLogin());
         assertEquals("pass123", createdUser.getPassword());
-        verify(userRepository, times(1)).save(any(UserModel.class));
+        verify(userRepository, times(1)).createUser(any(UserModel.class));
     }
 
     @Test
@@ -73,11 +73,11 @@ class UserServiceTest {
 
         when(userMapper.toModel(any(UserDTO.class))).thenReturn(userModel);
         doThrow(new IllegalArgumentException("The name cannot be null or empty"))
-                .when(userRepository).save(any(UserModel.class));
+                .when(userRepository).createUser(any(UserModel.class));
 
         assertThrows(IllegalArgumentException.class, () -> userService.createUser(invalidUser));
 
-        verify(userRepository, times(1)).save(any(UserModel.class));
+        verify(userRepository, times(1)).createUser(any(UserModel.class));
     }
 
     @Test
@@ -89,11 +89,11 @@ class UserServiceTest {
 
         when(userMapper.toModel(any(UserDTO.class))).thenReturn(userModel);
         doThrow(new IllegalArgumentException("Login already exists"))
-                .when(userRepository).save(any(UserModel.class));
+                .when(userRepository).createUser(any(UserModel.class));
 
         assertThrows(IllegalArgumentException.class, () -> userService.createUser(newUser));
 
-        verify(userRepository, times(1)).save(any(UserModel.class));
+        verify(userRepository, times(1)).createUser(any(UserModel.class));
     }
 
     @Test
@@ -105,12 +105,12 @@ class UserServiceTest {
 
         when(userMapper.toModel(any(UserDTO.class))).thenReturn(userModel);
         doThrow(new RuntimeException("Unexpected database error"))
-                .when(userRepository).save(any(UserModel.class));
+                .when(userRepository).createUser(any(UserModel.class));
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> userService.createUser(newUser));
 
         assertEquals("Unexpected database error", exception.getMessage());
-        verify(userRepository, times(1)).save(any(UserModel.class));
+        verify(userRepository, times(1)).createUser(any(UserModel.class));
     }
 
     // User Get
@@ -128,7 +128,7 @@ class UserServiceTest {
         userDTO2.setLogin("Taste");
         userDTO2.setPassword("please456");
 
-        when(userRepository.findAll()).thenReturn(Arrays.asList(userModel, userModel2));
+        when(userRepository.getUsers()).thenReturn(Arrays.asList(userModel, userModel2));
         when(userMapper.toDTO(userModel)).thenReturn(userDTO);
         when(userMapper.toDTO(userModel2)).thenReturn(userDTO2);
 
@@ -138,34 +138,34 @@ class UserServiceTest {
         assertEquals(2, users.size());
         assertEquals("Baby Shark", users.get(0).getName());
         assertEquals("Good Graces", users.get(1).getName());
-        verify(userRepository, times(1)).findAll();
+        verify(userRepository, times(1)).getUsers();
     }
 
     @Test
     void testGetById() {
-        when(userRepository.findById("test-123")).thenReturn(Optional.of(userModel));
+        when(userRepository.getUserById("test-123")).thenReturn(Optional.of(userModel));
         when(userMapper.toDTO(userModel)).thenReturn(userDTO);
 
         Optional<UserDTO> result = userService.getById("test-123");
 
         assertTrue(result.isPresent());
         assertEquals("Baby Shark", result.get().getName());
-        verify(userRepository, times(1)).findById("test-123");
+        verify(userRepository, times(1)).getUserById("test-123");
     }
 
     @Test
     void testGetByIdNotFound() {
-        when(userRepository.findById("UnknownId")).thenReturn(Optional.of(userModel));
+        when(userRepository.getUserById("UnknownId")).thenReturn(Optional.of(userModel));
 
         Optional<UserDTO> result = userService.getById("UnknownId");
 
         assertFalse(result.isPresent());
-        verify(userRepository, times(1)).findById("UnknownId");
+        verify(userRepository, times(1)).getUserById("UnknownId");
     }
 
     @Test
     void testGetByLogin() {
-        when(userRepository.findByLogin("Shark")).thenReturn(Optional.of(userModel));
+        when(userRepository.getUserByLogin("Shark")).thenReturn(Optional.of(userModel));
         when(userMapper.toDTO(userModel)).thenReturn(userDTO);
 
         Optional<UserDTO> result = userService.getByLogin("Shark");
@@ -173,16 +173,16 @@ class UserServiceTest {
         assertTrue(result.isPresent());
         assertEquals("Baby Shark", result.get().getName());
         assertEquals("Shark", result.get().getLogin());
-        verify(userRepository, times(1)).findByLogin("Shark");
+        verify(userRepository, times(1)).getUserByLogin("Shark");
     }
 
     @Test
     void testGetByLoginNotFound() {
-        when(userRepository.findByLogin("UnknownLogin")).thenReturn(Optional.empty());
+        when(userRepository.getUserByLogin("UnknownLogin")).thenReturn(Optional.empty());
 
         Optional<UserDTO> result = userService.getByLogin("UnknownLogin");
 
         assertFalse(result.isPresent());
-        verify(userRepository, times(1)).findByLogin("UnknownLogin");
+        verify(userRepository, times(1)).getUserByLogin("UnknownLogin");
     }
 }
