@@ -1,9 +1,32 @@
 stages: 
   - build
+  - test
+  - maven
 
-create_file:
-  image: alpine
+default:
+  image: ubuntu-latest
+
+
+build_app:
   stage: build
-  script: 
-    - echo "Building..."
-    - mkdir build
+  script:
+    - mvn clean install
+  only:
+    - develop
+    - main
+
+run_unit_tests:
+  stage: test
+  script:
+    - mvn test
+  only:
+    - develop
+    - main
+
+verify_maven
+  stage: maven
+  script:
+    - mvn -v
+  only:
+  - develop
+  - main
