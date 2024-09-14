@@ -4,7 +4,7 @@ stages:
   - maven
 
 default:
-  image: maven:3.9.4-jdk-21
+  image: jelastic/maven:3.9.5-openjdk-21
 
 
 build_app:
