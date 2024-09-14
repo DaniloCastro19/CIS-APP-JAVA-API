@@ -7,7 +7,7 @@ default:
   image: ubuntu-latest
 
 on: 
-  pull_Request:
+  pull_request:
     branches:
       - develop
       - main
