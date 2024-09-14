@@ -1,5 +1,4 @@
+target
 .idea
-out
-.mvn
-mvnw
-mvnw.cmd
+.log
+log
