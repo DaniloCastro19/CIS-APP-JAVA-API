@@ -185,4 +185,76 @@ class UserServiceTest {
         assertFalse(result.isPresent());
         verify(userRepository, times(1)).getUserByLogin("UnknownLogin");
     }
+
+    // User Update
+    @Test
+    void testUpdateUserSuccess() {
+        userDTO.setName("Updated Shark");
+        userDTO.setLogin("UpdatedLogin");
+        userDTO.setPassword("newpass123");
+
+        UserModel updatedUserModel = userModel;
+        updatedUserModel.setName("Updated Shark");
+        updatedUserModel.setLogin("UpdatedLogin");
+        updatedUserModel.setPassword("newpass123");
+
+        when(userRepository.getUserById("test-123")).thenReturn(Optional.of(userModel));
+        when(userMapper.toModel(userDTO)).thenReturn(updatedUserModel);
+        when(userRepository.updateUserByID(any(UserModel.class))).thenReturn(updatedUserModel);
+        when(userMapper.toDTO(any(UserModel.class))).thenReturn(userDTO);
+
+        Optional<UserDTO> result = userService.updateUser("test-123", userDTO);
+
+        assertTrue(result.isPresent());
+        assertEquals("Updated Shark", result.get().getName());
+        assertEquals("UpdatedLogin", result.get().getLogin());
+        verify(userRepository, times(1)).getUserById("test-123");
+        verify(userRepository, times(1)).updateUserByID(any(UserModel.class));
+    }
+
+    @Test
+    void testUpdateUserNotFound() {
+        when(userRepository.getUserById("unknownId")).thenReturn(Optional.empty());
+
+        Optional<UserDTO> result = userService.updateUser("unknownId", userDTO);
+
+        assertFalse(result.isPresent());
+        verify(userRepository, times(1)).getUserById("unknownId");
+        verify(userRepository, never()).updateUserByID(any(UserModel.class));
+    }
+
+    @Test
+    void testUpdateUserPartialData() {
+        userDTO.setName("Chihiro");
+
+        UserModel updatedUserModel = userModel;
+        updatedUserModel.setName("Chihiro");
+
+        when(userRepository.getUserById("test-123")).thenReturn(Optional.of(userModel));
+        when(userMapper.toModel(userDTO)).thenReturn(updatedUserModel);
+        when(userRepository.updateUserByID(any(UserModel.class))).thenReturn(updatedUserModel);
+        when(userMapper.toDTO(any(UserModel.class))).thenReturn(userDTO);
+
+        Optional<UserDTO> result = userService.updateUser("test-123", userDTO);
+
+        assertTrue(result.isPresent());
+        assertEquals("Chihiro", result.get().getName());
+        assertEquals("Shark", result.get().getLogin());
+        assertEquals("pass123", result.get().getPassword());
+    }
+
+    @Test
+    void testUpdateUserNoChanges() {
+        when(userRepository.getUserById("test-123")).thenReturn(Optional.of(userModel));
+        when(userMapper.toModel(userDTO)).thenReturn(userModel);
+        when(userRepository.updateUserByID(any(UserModel.class))).thenReturn(userModel);
+        when(userMapper.toDTO(any(UserModel.class))).thenReturn(userDTO);
+
+        Optional<UserDTO> result = userService.updateUser("test-123", userDTO);
+
+        assertTrue(result.isPresent());
+        assertEquals(userDTO.getName(), result.get().getName());
+        assertEquals(userDTO.getLogin(), result.get().getLogin());
+        verify(userRepository, times(1)).updateUserByID(any(UserModel.class));
+    }
 }
