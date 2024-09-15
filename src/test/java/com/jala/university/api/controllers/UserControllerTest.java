@@ -19,8 +19,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -183,4 +182,104 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
+
+    // User Update
+    @Test
+    void testUpdateUserSuccess() throws Exception {
+        UserDTO updatedUserDTO = new UserDTO();
+        updatedUserDTO.setId("test-123");
+        updatedUserDTO.setName("Updated Shark");
+        updatedUserDTO.setLogin("Shark");
+        updatedUserDTO.setPassword("newPass123");
+
+        when(userService.updateUser(any(String.class), any(UserDTO.class))).thenReturn(Optional.of(updatedUserDTO));
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String userJson = objectMapper.writeValueAsString(updatedUserDTO);
+
+        mockMvc.perform(put("/api/users/test-123")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(userJson))
+                .andExpect(status().isOk())
+                .andExpect(content().json(userJson));
+    }
+
+    @Test
+    void testUpdateUserNotFound() throws Exception {
+        UserDTO updatedUserDTO = new UserDTO();
+        updatedUserDTO.setId("unknownId");
+        updatedUserDTO.setName("Unknown User");
+
+        when(userService.updateUser(any(String.class), any(UserDTO.class))).thenReturn(Optional.empty());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String userJson = objectMapper.writeValueAsString(updatedUserDTO);
+
+        mockMvc.perform(put("/api/users/unknownId")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(userJson))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testUpdateUserWithNewPassword() throws Exception {
+        UserDTO updatedUserDTO = new UserDTO();
+        updatedUserDTO.setId("test-123");
+        updatedUserDTO.setName("Updated Shark");
+        updatedUserDTO.setLogin("Shark");
+        updatedUserDTO.setPassword("newSecurePass");
+
+        when(userService.updateUser(any(String.class), any(UserDTO.class))).thenReturn(Optional.of(updatedUserDTO));
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String userJson = objectMapper.writeValueAsString(updatedUserDTO);
+
+        mockMvc.perform(put("/api/users/test-123")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(userJson))
+                .andExpect(status().isOk())
+                .andExpect(content().json(userJson));
+    }
+
+    @Test
+    void testUpdateUserWithoutPasswordChange() throws Exception {
+        UserDTO updatedUserDTO = new UserDTO();
+        updatedUserDTO.setId("test-123");
+        updatedUserDTO.setName("Updated Shark");
+        updatedUserDTO.setLogin("Shark");
+        updatedUserDTO.setPassword(null);
+
+        when(userService.updateUser(any(String.class), any(UserDTO.class))).thenReturn(Optional.of(updatedUserDTO));
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String userJson = objectMapper.writeValueAsString(updatedUserDTO);
+
+        mockMvc.perform(put("/api/users/test-123")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(userJson))
+                .andExpect(status().isOk())
+                .andExpect(content().json(userJson));
+    }
+
+    @Test
+    void testUpdateUserOnlyLogin() throws Exception {
+        UserDTO updatedUserDTO = new UserDTO();
+        updatedUserDTO.setId("test-123");
+        updatedUserDTO.setName("Baby Shark");
+        updatedUserDTO.setLogin("newLogin");
+        updatedUserDTO.setPassword("pass123");  
+
+        when(userService.updateUser(any(String.class), any(UserDTO.class))).thenReturn(Optional.of(updatedUserDTO));
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String userJson = objectMapper.writeValueAsString(updatedUserDTO);
+
+        mockMvc.perform(put("/api/users/test-123")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(userJson))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"id\":\"test-123\",\"name\":\"Baby Shark\",\"login\":\"newLogin\",\"password\":\"pass123\"}"));
+    }
+
+
 }
