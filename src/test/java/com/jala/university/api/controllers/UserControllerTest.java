@@ -281,5 +281,24 @@ class UserControllerTest {
                 .andExpect(content().json("{\"id\":\"test-123\",\"name\":\"Baby Shark\",\"login\":\"newLogin\",\"password\":\"pass123\"}"));
     }
 
+    // User Delete
+    @Test
+    void testDeleteUserSuccess() throws Exception {
+        String userId = "test-123";
+        when(userService.deleteUser(userId)).thenReturn(true);
 
+        mockMvc.perform(delete("/api/users/" + userId))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"message\":\"User deleted successfully\"}"));
+    }
+
+    @Test
+    void testDeleteUserNotFound() throws Exception {
+        String userId = "unknown-id";
+        when(userService.deleteUser(userId)).thenReturn(false);
+
+        mockMvc.perform(delete("/api/users/" + userId))
+                .andExpect(status().isNotFound())
+                .andExpect(content().json("{\"message\":\"User not found\"}"));
+    }
 }
