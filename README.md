@@ -1,6 +1,14 @@
-# Java Users API
+# Phase 1 - Legacy System Integration and Java Users API
 
-An API to manage Users. This API must work with the same User CLI provided. The project seeks the development of a modern API for the users of the system allowed to authenticate and to facilitate its consumption for subsequent reuse.
+## Introduction
+
+This project focuses on developing a Crowdsourced Ideation Solution (CIS) that is compatible with an existing legacy system. The CIS is a platform for collective creativity where users can propose ideas and vote for the best ones.
+
+## Project Overview
+
+The Crowdsourced Ideation Solution (CIS) aims to integrate with a legacy CLI-based Java system and an existing MySQL database. This phase focuses on creating a modern user API that coexists with the legacy system while ensuring data consistency and security.
+
+![phase1.png](public%2Fimg%2Fphase1.png)
 
 # Prerequisites:
 - Maven 3.9.9 
@@ -25,6 +33,15 @@ Try to make sure you have maven already installed. You can check this with:
 `mvn --version`
 
 # Users API Documentation
+
+## Authentication
+
+To access the API, you need to provide the following credentials using Basic Authentication:
+
+```
+Username: root
+Password: root
+```
 
 ## GET /api/users
 
