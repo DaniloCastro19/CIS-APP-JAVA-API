@@ -257,4 +257,58 @@ class UserServiceTest {
         assertEquals(userDTO.getLogin(), result.get().getLogin());
         verify(userRepository, times(1)).updateUserByID(any(UserModel.class));
     }
+
+    // User Delete
+
+    @Test
+    void testDeleteUserSuccess() {
+        String userId = "test-123";
+        UserModel userToDelete = new UserModel();
+        userToDelete.setId(userId);
+
+        when(userRepository.getUserById(userId)).thenReturn(Optional.of(userToDelete));
+        doNothing().when(userRepository).deleteUser(userToDelete);
+
+        boolean result = userService.deleteUser(userId);
+
+        assertTrue(result);
+        verify(userRepository, times(1)).getUserById(userId);
+        verify(userRepository, times(1)).deleteUser(userToDelete);
+    }
+
+    @Test
+    void testDeleteUserNotFound() {
+        String userId = "unknown-id";
+
+        when(userRepository.getUserById(userId)).thenReturn(Optional.empty());
+
+        boolean result = userService.deleteUser(userId);
+
+        assertFalse(result);
+        verify(userRepository, times(1)).getUserById(userId);
+        verify(userRepository, never()).deleteUser(any(UserModel.class));
+    }
+
+    @Test
+    void testDeleteUserWithNullId() {
+        boolean result = userService.deleteUser(null);
+
+        assertFalse(result);
+        verify(userRepository, never()).getUserById(anyString());
+        verify(userRepository, never()).deleteUser(any(UserModel.class));
+    }
+
+    @Test
+    void testDeleteUserRepositoryException() {
+        String userId = "test-123";
+        UserModel userToDelete = new UserModel();
+        userToDelete.setId(userId);
+
+        when(userRepository.getUserById(userId)).thenReturn(Optional.of(userToDelete));
+        doThrow(new RuntimeException("Database error")).when(userRepository).deleteUser(userToDelete);
+
+        assertThrows(RuntimeException.class, () -> userService.deleteUser(userId));
+        verify(userRepository, times(1)).getUserById(userId);
+        verify(userRepository, times(1)).deleteUser(userToDelete);
+    }
 }
