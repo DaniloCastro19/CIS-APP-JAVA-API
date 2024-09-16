@@ -1,5 +1,8 @@
 package com.jala.university.core.exception;
 
+import lombok.Data;
+
+@Data
 public class RequestException extends RuntimeException {
     private String errorCode;
 

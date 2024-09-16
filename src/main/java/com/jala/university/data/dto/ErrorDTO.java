@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class ErrorDTO {
-    private String ErrorCode;
+    private String code;
     private String message;
 }
