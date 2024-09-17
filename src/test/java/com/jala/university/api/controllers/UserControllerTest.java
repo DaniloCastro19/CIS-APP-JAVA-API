@@ -1,6 +1,7 @@
 package com.jala.university.api.controllers;
 
 import com.jala.university.core.services.UserService;
+import com.jala.university.core.utils.UserValidator;
 import com.jala.university.data.dto.UserDTO;
 import com.jala.university.data.models.UserModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,10 +19,9 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 class UserControllerTest {
 
@@ -29,6 +29,9 @@ class UserControllerTest {
 
     @Mock
     private UserService userService;
+
+    @Mock
+    private UserValidator userValidator;
 
     @InjectMocks
     private UserController userController;
@@ -49,6 +52,9 @@ class UserControllerTest {
         userDTO.setName("Baby Shark");
         userDTO.setLogin("Shark");
         userDTO.setPassword("pass123");
+
+        doNothing().when(userValidator).validate(any(UserDTO.class));
+        doNothing().when(userValidator).validateUpdate(any(UserDTO.class));
     }
 
     // User Post
@@ -74,7 +80,7 @@ class UserControllerTest {
         mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json(userJson));
     }
 
@@ -94,7 +100,7 @@ class UserControllerTest {
         mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json(userJson));
     }
 
@@ -114,7 +120,7 @@ class UserControllerTest {
         mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json(userJson));
     }
 
@@ -301,4 +307,5 @@ class UserControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().json("{\"message\":\"User not found\"}"));
     }
+
 }
