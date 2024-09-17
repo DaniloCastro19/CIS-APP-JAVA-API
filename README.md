@@ -210,7 +210,7 @@ Deletes an existing user's information
 
 ```json
 {
-  "message": "eliminacion exitosa"
+  "message": "User deleted successfully"
 }
 ```
 
