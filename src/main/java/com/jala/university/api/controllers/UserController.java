@@ -2,6 +2,8 @@ package com.jala.university.api.controllers;
 
 import com.jala.university.core.security.PassEncoder;
 import com.jala.university.core.services.UserService;
+import com.jala.university.core.utils.UserValidator;
+import com.jala.university.data.dto.ErrorDTO;
 import com.jala.university.data.dto.UserDTO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,10 +19,12 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
     private final UserService userService;
+    private final UserValidator userValidator;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserValidator userValidator) {
         this.userService = userService;
+        this.userValidator = userValidator;
     }
 
     @GetMapping
@@ -30,10 +34,12 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDTO createUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
         log.info("Creating a new user");
+        userValidator.validate(userDTO);
         userDTO.setPassword(PassEncoder.passwordEncoder().encode(userDTO.getPassword()));
-        return userService.createUser(userDTO);
+        UserDTO user = userService.createUser(userDTO);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

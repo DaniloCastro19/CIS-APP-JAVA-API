@@ -39,7 +39,6 @@ public class UserService {
         return userMapper.toDTO(userRepository.createUser(user));
     }
 
-    @Cacheable(value = CacheConfig.USERS_INFO_CACHE, unless = "#result == null")
     public Optional<UserDTO> getById(String id) {
         log.info("accessing from the database");
         return userRepository.getUserById(id).map(userMapper::toDTO);
