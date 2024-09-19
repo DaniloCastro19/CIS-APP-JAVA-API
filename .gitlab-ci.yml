@@ -1,16 +1,36 @@
 stages: 
   - build
   - test
-  - maven
 
-default:
-  image: jelastic/maven:3.9.5-openjdk-21
+image: eclipse-temurin:21-jdk
 
+variables: 
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+  MAVEN_CLI_OPTS: >-
+    --batch-mode
+    --errors
+    --fail-at-end
+    --show-version
+    -DinstallAtEnd=true
+    -DdeployAtEnt=true
+
+before_script:
+  - apt-get update && apt-get install -y maven
+  - mvn -v
+  - java --version
+
+cache:
+  paths:
+    - .m2/repository
 
 build_app:
   stage: build
   script:
-    - mvn clean install
+    - mvn $MAVEN_CLI_OPTS clean package -DskipTests
+  artifacts:
+    paths: 
+      - target/*.jar
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
@@ -18,14 +38,6 @@ build_app:
 run_unit_tests:
   stage: test
   script:
-    - mvn test
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-
-
-verify_maven:
-  stage: maven
-  script:
-    - mvn -v
+    - mvn $MAVEN_CLI_OPTS test
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
