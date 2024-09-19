@@ -16,7 +16,7 @@ variables:
     -DdeployAtEnt=true
 
 before_script:
-  -apt-get update && apt-get install -y maven
+  - apt-get update && apt-get install -y maven
   - mvn -v
   - java --version
 
