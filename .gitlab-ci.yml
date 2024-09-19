@@ -9,13 +9,14 @@ default:
 
 variables: 
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  
   MAVEN_CLI_OPTS: >-
-  --batch-mode
-  --errors
-  --fail-at-end
-  --show-version
-  -DinstallAtEnd=true
-  -DdeployAtEnt=true
+    --batch-mode
+    --errors
+    --fail-at-end
+    --show-version
+    -DinstallAtEnd=true
+    -DdeployAtEnt=true
 
 before_script:
   -apt-get update && apt-get install -y maven
