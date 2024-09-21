@@ -1,20 +1,33 @@
 package com.jala.university.api.utils;
 
 import com.jala.university.core.exception.RequestException;
+import com.jala.university.core.services.UserService;
 import com.jala.university.core.utils.UserValidator;
 import com.jala.university.data.dto.UserDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 class UserValidatorTest {
 
+    @InjectMocks
     private UserValidator userValidator;
+
+    @Mock
+    private UserService userService;
+
 
     @BeforeEach
     void setUp() {
-        userValidator = new UserValidator();
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -102,8 +115,9 @@ class UserValidatorTest {
 
     @Test
     void shouldThrowExceptionWhenUserDTOIsNullInUpdate() {
+        when(userService.getById(anyString())).thenReturn(Optional.of(new UserDTO()));
         assertThrows(RequestException.class,
-                () -> userValidator.validateUpdate(null),
+                () -> userValidator.validateUpdate("1",null),
                 "Should throw exception when UserDTO is null in update");
     }
 
@@ -111,9 +125,9 @@ class UserValidatorTest {
     void shouldThrowExceptionWhenLoginIsTooShortInUpdate() {
         UserDTO userDTO = new UserDTO();
         userDTO.setLogin("bs");
-
+        when(userService.getById(anyString())).thenReturn(Optional.of(new UserDTO()));
         assertThrows(RequestException.class,
-                () -> userValidator.validateUpdate(userDTO),
+                () -> userValidator.validateUpdate("1",userDTO),
                 "Should throw exception when login is less than 3 characters in update");
     }
 
@@ -121,9 +135,9 @@ class UserValidatorTest {
     void shouldThrowExceptionWhenPasswordIsTooShortInUpdate() {
         UserDTO userDTO = new UserDTO();
         userDTO.setPassword("12345");
-
+        when(userService.getById(anyString())).thenReturn(Optional.of(new UserDTO()));
         assertThrows(RequestException.class,
-                () -> userValidator.validateUpdate(userDTO),
+                () -> userValidator.validateUpdate("1",userDTO),
                 "Should throw exception when password is less than 6 characters in update");
     }
 
@@ -132,8 +146,8 @@ class UserValidatorTest {
         UserDTO userDTO = new UserDTO();
         userDTO.setLogin(null);
         userDTO.setPassword("pass123");
-
-        assertDoesNotThrow(() -> userValidator.validateUpdate(userDTO),
+        when(userService.getById(anyString())).thenReturn(Optional.of(new UserDTO()));
+        assertDoesNotThrow(() -> userValidator.validateUpdate("1",userDTO),
                 "Should accept null login in update");
     }
 
@@ -142,8 +156,8 @@ class UserValidatorTest {
         UserDTO userDTO = new UserDTO();
         userDTO.setLogin("Shark");
         userDTO.setPassword(null);
-
-        assertDoesNotThrow(() -> userValidator.validateUpdate(userDTO),
+        when(userService.getById(anyString())).thenReturn(Optional.of(new UserDTO()));
+        assertDoesNotThrow(() -> userValidator.validateUpdate("1",userDTO),
                 "Should accept null password in update");
     }
 
@@ -152,8 +166,8 @@ class UserValidatorTest {
         UserDTO userDTO = new UserDTO();
         userDTO.setLogin("Shark");
         userDTO.setPassword("pass123");
-
-        assertDoesNotThrow(() -> userValidator.validateUpdate(userDTO),
+        when(userService.getById(anyString())).thenReturn(Optional.of(new UserDTO()));
+        assertDoesNotThrow(() -> userValidator.validateUpdate("1",userDTO),
                 "Should accept valid login and password in update");
     }
 }
