@@ -54,7 +54,7 @@ class UserControllerTest {
         userDTO.setPassword("pass123");
 
         doNothing().when(userValidator).validate(any(UserDTO.class));
-        doNothing().when(userValidator).validateUpdate(any(UserDTO.class));
+        doNothing().when(userValidator).validateUpdate(anyString(), any(UserDTO.class));
     }
 
     // User Post
