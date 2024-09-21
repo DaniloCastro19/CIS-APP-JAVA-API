@@ -57,7 +57,7 @@ public class UserValidator {
 
     private void validateUserNotNull(UserDTO userDTO) {
         if (userDTO == null) {
-            throw new BadRequestException("P-400", "User data cannot be null");
+            throw new RequestException("P-400", "User data cannot be null");
         }
     }
 
@@ -75,13 +75,13 @@ public class UserValidator {
 
     private void validatePassword(String password) {
         if (password == null || password.isEmpty()) {
-            throw new BadRequestException("P-400", "Password cannot be empty");
+            throw new RequestException("P-400", "Password cannot be empty");
         }
         if (password.length() < 6) {
-            throw new BadRequestException("P-400", "Password must be at least 6 characters long");
+            throw new RequestException("P-400", "Password must be at least 6 characters long");
         }
         if (!password.matches("^(?=.*[0-9])(?=.*[a-zA-Z]).{6,}$")) {
-            throw new BadRequestException("P-400", "Password must contain at least one letter and one number");
+            throw new RequestException("P-400", "Password must contain at least one letter and one number");
         }
     }
 }
