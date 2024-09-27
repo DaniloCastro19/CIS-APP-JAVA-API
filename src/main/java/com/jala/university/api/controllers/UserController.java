@@ -3,7 +3,6 @@ package com.jala.university.api.controllers;
 import com.jala.university.core.security.PassEncoder;
 import com.jala.university.core.services.UserService;
 import com.jala.university.core.utils.UserValidator;
-import com.jala.university.data.dto.ErrorDTO;
 import com.jala.university.data.dto.UserDTO;
 
 import lombok.extern.slf4j.Slf4j;

@@ -1,15 +1,11 @@
 package com.jala.university.core.utils;
 
-import com.jala.university.core.exception.BadRequestException;
 import com.jala.university.core.exception.NotFoundException;
 import com.jala.university.core.exception.RequestException;
 import com.jala.university.core.services.UserService;
 import com.jala.university.data.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-
-import java.util.Optional;
 
 @Component
 public class UserValidator {
