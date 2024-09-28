@@ -1,43 +1,39 @@
-stages: 
+stages:
   - build
-  - test
 
-image: eclipse-temurin:21-jdk
+default:
+  image: ubuntu:22.04
 
-variables: 
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-
-  MAVEN_CLI_OPTS: >-
+variables:
+  MAVEN_CLI_OPTIONS: >-
     --batch-mode
     --errors
     --fail-at-end
     --show-version
+    --no-transfer-progress
     -DinstallAtEnd=true
-    -DdeployAtEnt=true
+    -DdeployAtEnd=true
+  URL: "$DB_URL"
+  USERNAME: "$DB_USERNAME"
+  PASSWORD: "$DB_PASSWORD"
 
-before_script:
-  - apt-get update && apt-get install -y maven
-  - mvn -v
-  - java --version
+services:
+  - name: mysql:9.0.0
+    alias: sd3db
+    variables:
+      MYSQL_DATABASE: sd3
+      MYSQL_ROOT_PASSWORD: $PASSWORD
 
-cache:
-  paths:
-    - .m2/repository
-
-build_app:
+build-job:
   stage: build
   script:
-    - mvn $MAVEN_CLI_OPTS clean package -DskipTests
+    - echo "Building project..."
+    - apt-get update
+    - apt-get install -y openjdk-21-jdk
+    - chmod +x mvnw
+    - ./mvnw clean compile package -DskipTests
   artifacts:
-    paths: 
-      - target/*.jar
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    paths:
+      - target/
 
 
-run_unit_tests:
-  stage: test
-  script:
-    - mvn $MAVEN_CLI_OPTS test
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
