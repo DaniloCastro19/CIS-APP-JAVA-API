@@ -9,6 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,6 +44,35 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO) {
+        log.info("Registering a new user");
+        userValidator.validate(userDTO);
+        userDTO.setPassword(PassEncoder.passwordEncoder().encode(userDTO.getPassword()));
+        UserDTO registeredUser = userService.createUser(userDTO);
+        String responseMessage = "User " + registeredUser.getLogin() + " registered successfully with ID: " + registeredUser.getId();
+        return ResponseEntity.ok(responseMessage);
+    }
+
+    @GetMapping("/validate")
+    public ResponseEntity<String> validateUser(Authentication authentication) {
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String login = userDetails.getUsername();
+            log.info("Validating user with login: {}", login);
+
+            if (userService.getByLogin(login).isPresent()) {
+                String responseMessage = "User " + login + " is valid.";
+                return ResponseEntity.ok(responseMessage);
+            } else {
+                String responseMessage = "User with login '" + login + "' is not registered.";
+                log.warn(responseMessage);
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseMessage);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication is required.");
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable String id) {
         userValidator.validateGet(id);
@@ -62,11 +94,14 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable String id, @RequestBody UserDTO userDTO) {
         log.info("Updating user with ID: {}", id);
-        userValidator.validateUpdate(id ,userDTO);
+        userValidator.validateUpdate(id, userDTO);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.getName().equals("root") && !authentication.getName().equals(userDTO.getLogin())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
         if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
             userDTO.setPassword(PassEncoder.passwordEncoder().encode(userDTO.getPassword()));
         }
-
         return userService.updateUser(id, userDTO)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -76,6 +111,10 @@ public class UserController {
     public ResponseEntity<Object> deleteUser(@PathVariable String id) {
         log.info("Deleting user with ID: {}", id);
         userValidator.validateDelete(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.getName().equals("root") && !authentication.getName().equals(userService.getById(id).get().getLogin())) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
         boolean isDeleted = userService.deleteUser(id);
         if (isDeleted) {
             log.info("User with ID: {} deleted successfully", id);
