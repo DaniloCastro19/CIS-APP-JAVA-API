@@ -17,6 +17,12 @@ variables:
   USERNAME: "$DB_USERNAME"
   PASSWORD: "$DB_PASSWORD"
 
+before_script:
+  - apt-get update && apt-get install -y maven
+  - mvn -v
+  - java --version
+
+
 services:
   - name: mysql:9.0.0
     alias: sd3db
