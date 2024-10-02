@@ -27,14 +27,6 @@ cache:
   paths:
     - .m2/repository
 
-
-services:
-  - name: mysql:9.0.0
-    alias: sd3db
-    variables:
-      MYSQL_DATABASE: sd3
-      MYSQL_ROOT_PASSWORD: $PASSWORD
-
 build-job:
   stage: build
   script:
