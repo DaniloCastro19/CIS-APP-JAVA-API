@@ -1,10 +1,11 @@
 stages:
   - build
   - test
-default:
-  image: eclipse-temurin:21-jdk
+
+image: eclipse-temurin:21-jdk
 
 variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   MAVEN_CLI_OPTIONS: >-
     --batch-mode
     --errors
@@ -21,6 +22,10 @@ before_script:
   - apt-get update && apt-get install -y maven
   - mvn -v
   - java --version
+
+cache:
+  paths:
+    - .m2/repository
 
 
 services:
