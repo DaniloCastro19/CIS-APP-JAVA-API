@@ -1,13 +1,11 @@
 package com.jala.university.core.services;
 
-import com.jala.university.config.CacheConfig;
 import com.jala.university.core.utils.UserMapper;
 import com.jala.university.data.dto.UserDTO;
 import com.jala.university.data.models.UserModel;
 import com.jala.university.data.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

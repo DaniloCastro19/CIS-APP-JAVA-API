@@ -16,6 +16,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authz -> authz
+                        .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/users/**").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/users/**").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/api/users/**").authenticated()
