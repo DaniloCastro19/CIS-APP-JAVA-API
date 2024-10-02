@@ -1,26 +1,24 @@
-version: "3"
 services:
   users-api:
     build: .
     ports:
       - "8080:8080"
     environment:
-      URL: jdbc:mysql://mysqldb:3306/sd3db?createDatabaseIfNotExist=true&serverTimezone=UTC
-      USERNAME: root
-      PASSWORD: sd5
+      URL: ${DB_URL}
+      USERNAME: ${DB_USERNAME}
+      PASSWORD: ${DB_PASSWORD}
     restart: always
     depends_on:
-      mysqldb:
+      sd3db:
         condition: service_healthy
 
-  mysqldb:
+  sd3db:
     image: mysql:9.0.0
     ports:
       - "3307:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: sd5
-      MYSQL_PASSWORD: sd5
-      MYSQL_DATABASE: sd3db
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: sd3
     restart: always
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
