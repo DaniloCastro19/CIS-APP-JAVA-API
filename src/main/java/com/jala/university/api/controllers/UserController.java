@@ -96,7 +96,7 @@ public class UserController {
         log.info("Updating user with ID: {}", id);
         userValidator.validateUpdate(id, userDTO);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!authentication.getName().equals("root") && !authentication.getName().equals(userDTO.getLogin())) {
+        if (!authentication.getName().equals("root") && !authentication.getName().equals(userService.getById(id).get().getLogin())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()) {
