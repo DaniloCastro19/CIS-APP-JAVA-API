@@ -3,8 +3,10 @@ package com.jala.university.api.controllers;
 import com.jala.university.core.security.PassEncoder;
 import com.jala.university.core.services.UserService;
 import com.jala.university.core.utils.UserValidator;
+import com.jala.university.data.dto.LoginDTO;
 import com.jala.university.data.dto.UserDTO;
 
+import com.jala.university.data.models.UserModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,22 +58,13 @@ public class UserController {
     }
 
     @GetMapping("/validate")
-    public ResponseEntity<String> validateUser(Authentication authentication) {
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String login = userDetails.getUsername();
-            log.info("Validating user with login: {}", login);
-
-            if (userService.getByLogin(login).isPresent()) {
-                String responseMessage = "User " + login + " is valid.";
-                return ResponseEntity.ok(responseMessage);
-            } else {
-                String responseMessage = "User with login '" + login + "' is not registered.";
-                log.warn(responseMessage);
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseMessage);
-            }
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication is required.");
+    public ResponseEntity<String> validateUser(@RequestHeader("login") String login, @RequestHeader("password") String password) {
+        LoginDTO loginEntry = new LoginDTO();
+        loginEntry.setLogin(login);
+        loginEntry.setPassword(password);
+        UserModel userToValidate = userService.login(loginEntry);
+        if(userToValidate==null)return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(userToValidate.getId());
     }
 
     @GetMapping("/{id}")

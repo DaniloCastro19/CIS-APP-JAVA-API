@@ -1,11 +1,13 @@
 package com.jala.university.core.services;
 
 import com.jala.university.core.utils.UserMapper;
+import com.jala.university.data.dto.LoginDTO;
 import com.jala.university.data.dto.UserDTO;
 import com.jala.university.data.models.UserModel;
 import com.jala.university.data.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +20,13 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserMapper userMapper,UserRepository userRepository){
+    public UserService(UserMapper userMapper,UserRepository userRepository, PasswordEncoder passwordEncoder){
         this.userMapper = userMapper;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<UserDTO> getUsers() {
@@ -44,6 +48,16 @@ public class UserService {
 
     public Optional<UserDTO> getByLogin(String login) {
         return userRepository.getUserByLogin(login).map(userMapper::toDTO);
+    }
+
+    public UserModel login(LoginDTO loginRequest){
+        Optional<UserModel> user = userRepository.getUserByLogin(loginRequest.getLogin());
+        if(user.isPresent()){
+            if(passwordEncoder.matches(loginRequest.getPassword(), user.get().getPassword())){
+                return user.get();
+            }
+        }
+        return null;
     }
 
     @Transactional
