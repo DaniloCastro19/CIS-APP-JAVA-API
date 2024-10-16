@@ -14,9 +14,9 @@ variables:
     --no-transfer-progress
     -DinstallAtEnd=true
     -DdeployAtEnd=true
-  #URL: "$DB_URL"
-  #USERNAME: "$DB_USERNAME"
-  #PASSWORD: "$DB_PASSWORD"
+  URL: "$DB_URL"
+  USERNAME: "$DB_USERNAME"
+  PASSWORD: "$DB_PASSWORD"
 
 before_script:
   - apt-get update && apt-get install -y maven
