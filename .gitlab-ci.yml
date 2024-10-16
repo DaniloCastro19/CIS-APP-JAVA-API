@@ -2,7 +2,7 @@ stages:
   - build
   - test
 
-image: eclipse-temurin:21-jdk
+image: graalvm-jdk-21.0.4
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
