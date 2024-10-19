@@ -25,6 +25,10 @@ variables:
   USERNAME: "$DB_USERNAME"
   PASSWORD: "$DB_PASSWORD"
 
+before_script:
+  - mvn -v
+  - java --version
+
 cache:
   paths:
     - .m2/repository
