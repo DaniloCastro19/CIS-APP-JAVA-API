@@ -74,10 +74,12 @@ preparing-image:
 
 deploy-project:
   stage: deploy
+  image: $REGISTRY_URL
+  services:
+    - docker:dind
   script:
     - echo 'start deploying'
-    - DB_URL=$DB_URL DB_USERNAME=$DB_USERNAME DB_PASSWORD=$DB_PASSWORD REGISTRY_URL=$REGISTRY_URL MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD docker-compose up --force-recreate -d
-  services: []
+    - docker-compose up --force-recreate -d
   tags:
     - sharkRunner
 
