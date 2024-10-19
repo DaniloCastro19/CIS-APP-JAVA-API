@@ -25,10 +25,6 @@ variables:
   USERNAME: "$DB_USERNAME"
   PASSWORD: "$DB_PASSWORD"
 
-before_script:
-  - mvn -v
-  - java --version
-
 cache:
   paths:
     - .m2/repository
@@ -36,6 +32,7 @@ cache:
 build-job:
   stage: build
   script:
+    - apt-get update && apt-get install -y maven
     - mvn $MAVEN_CLI_OPTS clean package -DskipTests
   artifacts:
     paths: 
