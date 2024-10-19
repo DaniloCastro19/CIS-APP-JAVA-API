@@ -29,7 +29,7 @@ cache:
   paths:
     - .m2/repository
 
-.build-job:
+build-job:
   stage: build
   script:
     - mvn $MAVEN_CLI_OPTS clean package -DskipTests
