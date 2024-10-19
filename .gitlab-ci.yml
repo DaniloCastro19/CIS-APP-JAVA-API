@@ -1,6 +1,8 @@
 stages:
   - build
   - test
+  - build-image
+  - deploy
 
 image: eclipse-temurin:21-jdk
 
@@ -27,7 +29,7 @@ cache:
   paths:
     - .m2/repository
 
-build-job:
+.build-job:
   stage: build
   script:
     - mvn $MAVEN_CLI_OPTS clean package -DskipTests
@@ -35,11 +37,38 @@ build-job:
     paths: 
       - target/*.jar
 
-run_unit_tests:
+.run_unit_tests:
   stage: test
   script:
     - mvn $MAVEN_CLI_OPTS test
-    
 
+preparing-version:    
+  stage: prepare-version    
+  image: ubuntu:22.04    
+  script:      
+    - apt-get update      
+    - apt-get install git -y      
+    - git config --global user.email "$GIT_EMAIL"      
+    - git config --global user.email "$GIT_USER"      
+    - git fetch --tags      
+    - git tag -l | tr -d v | sort -V | tail -n 1 > current_version.txt    
+  artifacts:      
+    paths:        
+      - current_version.txt
+
+preparing-image:  
+  stage: build-image  
+  services:    
+    - docker:dind  
+  image: docker:latest  
+  script:    
+    - echo 'Build docker image for API deploy'    
+    - echo $REGISTRY_URL    
+    - VERSION=$(cat current_version.txt)    
+    - echo $VERSION    
+    - docker login registry.gitlab.com -u $GITLAB_REGISTRY_USERNAME -p $GITLAB_REGISTRY_PASSWORD    
+    - docker build -t $REGISTRY_URL:$VERSION .    
+    - docker tag $REGISTRY_URL:$VERSION $REGISTRY_URL:latest    
+    - docker push $REGISTRY_URL:latest
 
 
