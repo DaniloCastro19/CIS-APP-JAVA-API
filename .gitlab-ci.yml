@@ -77,7 +77,9 @@ deploy-project:
   script:
     - echo 'start deploying'
     - DATABASE_URL=$DATABASE_URL DATABASE_USERNAME=$DATABASE_USERNAME DATABASE_PASSWORD=$DATABASE_PASSWORD GITLAB_REGISTRY_URL=$GITLAB_REGISTRY_URL MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD docker-compose up --force-recreate -d
-
+  services: []
+  tags:
+    - sharkRunner
 
 
 
