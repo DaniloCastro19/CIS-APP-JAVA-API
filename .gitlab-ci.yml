@@ -72,4 +72,17 @@ preparing-image:
     - docker tag $REGISTRY_URL:$VERSION $REGISTRY_URL:latest    
     - docker push $REGISTRY_URL:latest
 
+deploy-project:
+  stage: deploy
+  script:
+    - echo 'start deploying'
+    - DATABASE_URL=$DATABASE_URL DATABASE_USERNAME=$DATABASE_USERNAME DATABASE_PASSWORD=$DATABASE_PASSWORD GITLAB_REGISTRY_URL=$GITLAB_REGISTRY_URL MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD docker-compose up --force-recreate -d
 
+
+
+
+
+
+
+
+    
