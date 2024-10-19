@@ -5,6 +5,10 @@ stages:
   - build-image
   - deploy
 
+workflow:  
+  rules:    
+    - if: '$CI_MERGE_REQUEST_ID'
+
 image: eclipse-temurin:21-jdk
 
 variables:
