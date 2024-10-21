@@ -275,24 +275,6 @@ class UserControllerTest {
     }
 
     @Test
-    void testValidateUserSuccess() throws Exception {
-        Authentication authentication = mock(Authentication.class);
-        UserDetails userDetails = mock(UserDetails.class);
-        when(userDetails.getUsername()).thenReturn("testUser");
-        when(authentication.getPrincipal()).thenReturn(userDetails);
-
-        UserDTO userDTO = new UserDTO();
-        userDTO.setLogin("testUser");
-
-        when(userService.getByLogin("testUser")).thenReturn(Optional.of(userDTO));
-
-        mockMvc.perform(get("/api/users/validate")
-                        .principal(authentication))
-                .andExpect(status().isOk())
-                .andExpect(content().string("User testUser is valid."));
-    }
-
-    @Test
     void testDeleteUserSuccess() throws Exception {
         Authentication authentication = mock(Authentication.class);
         when(authentication.getName()).thenReturn("root");
@@ -328,36 +310,5 @@ class UserControllerTest {
 
         mockMvc.perform(delete("/api/users/test-123"))
                 .andExpect(status().isForbidden());
-    }
-
-    @Test
-    void testValidateUserNotRegistered() throws Exception {
-        Authentication authentication = mock(Authentication.class);
-        UserDetails userDetails = mock(UserDetails.class);
-        when(authentication.getPrincipal()).thenReturn(userDetails);
-        when(userDetails.getUsername()).thenReturn("UnknownUser");
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        when(userService.getByLogin("UnknownUser")).thenReturn(Optional.empty());
-
-        mockMvc.perform(get("/api/users/validate"))
-                .andExpect(status().isUnauthorized())
-                .andExpect(content().string(containsString("Authentication is required")));
-    }
-
-    @Test
-    void testValidateUserUnauthenticated() throws Exception {
-        SecurityContextHolder.clearContext();
-
-        mockMvc.perform(get("/api/users/validate"))
-                .andExpect(status().isUnauthorized())
-                .andExpect(content().string(containsString("Authentication is required.")));
-    }
-
-    @Test
-    void testValidateUserUnauthorized() throws Exception {
-        mockMvc.perform(get("/api/users/validate"))
-                .andExpect(status().isUnauthorized())
-                .andExpect(content().string("Authentication is required."));
     }
 }

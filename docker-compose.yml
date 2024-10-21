@@ -1,0 +1,26 @@
+services:
+  users-api:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      URL: ${DB_URL}
+      USERNAME: ${DB_USERNAME}
+      PASSWORD: ${DB_PASSWORD}
+    restart: always
+    depends_on:
+      sd3db:
+        condition: service_healthy
+
+  sd3db:
+    image: mysql:9.0.0
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: sd3
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 10

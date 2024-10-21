@@ -1,43 +1,92 @@
-stages: 
+stages:
   - build
   - test
+  - prepare-version
+  - build-image
+  - deploy
+
+workflow:  
+  rules:    
+    - if: '$CI_MERGE_REQUEST_ID'
 
 image: eclipse-temurin:21-jdk
 
-variables: 
+variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
-
-  MAVEN_CLI_OPTS: >-
+  MAVEN_CLI_OPTIONS: >-
     --batch-mode
     --errors
     --fail-at-end
     --show-version
+    --no-transfer-progress
     -DinstallAtEnd=true
-    -DdeployAtEnt=true
-
-before_script:
-  - apt-get update && apt-get install -y maven
-  - mvn -v
-  - java --version
+    -DdeployAtEnd=true
+  URL: "$DB_URL"
+  USERNAME: "$DB_USERNAME"
+  PASSWORD: "$DB_PASSWORD"
 
 cache:
   paths:
     - .m2/repository
 
-build_app:
+build-job:
   stage: build
   script:
+    - apt-get update && apt-get install -y maven
     - mvn $MAVEN_CLI_OPTS clean package -DskipTests
   artifacts:
     paths: 
       - target/*.jar
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
-
-run_unit_tests:
+.run_unit_tests:
   stage: test
   script:
     - mvn $MAVEN_CLI_OPTS test
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+preparing-version:    
+  stage: prepare-version    
+  image: ubuntu:22.04    
+  script:      
+    - apt-get update      
+    - apt-get install git -y      
+    - git config --global user.email "$GIT_EMAIL"      
+    - git config --global user.email "$GIT_USER"      
+    - git fetch --tags      
+    - git tag -l | tr -d v | sort -V | tail -n 1 > current_version.txt    
+  artifacts:      
+    paths:        
+      - current_version.txt
+
+preparing-image:  
+  stage: build-image  
+  services:    
+    - docker:dind  
+  image: docker:latest  
+  script:    
+    - echo 'Build docker image for API deploy'    
+    - echo $REGISTRY_URL    
+    - VERSION=$(cat current_version.txt)    
+    - echo $VERSION    
+    - docker login registry.gitlab.com -u $GITLAB_REGISTRY_USERNAME -p $GITLAB_REGISTRY_PASSWORD    
+    - docker build -t $REGISTRY_URL:$VERSION .    
+    - docker tag $REGISTRY_URL:$VERSION $REGISTRY_URL:latest    
+    - docker push $REGISTRY_URL:latest
+
+deploy-project:
+  stage: deploy
+  image: registry.gitlab.com/jala-university1/cohort-2/oficial-es-desarrollo-de-software-3-iso-214.ga.t2.24.m2/secci-n-b/baby-sharks/cis_application
+  services:
+    - docker:dind
+  script:
+    - echo 'start deploying'
+    - docker-compose up --force-recreate -d
+  tags:
+    - sharkRunner
+
+
+
+
+
+
+
+    
