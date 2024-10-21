@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @ConditionalOnProperty(name= "database.type", havingValue = "mongo")
@@ -20,6 +21,7 @@ public class MongoUserRepositoryImpl implements UserRepository{
 
     @Override
     public UserModel createUser(UserModel user) {
+        user.setId(UUID.randomUUID().toString());
         return mongoTemplate.save(user);
     }
 
