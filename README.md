@@ -6,7 +6,7 @@ This project focuses on developing a Crowdsourced Ideation Solution (CIS) that i
 
 ## Project Overview
 
-The Crowdsourced Ideation Solution (CIS) aims to integrate with a legacy CLI-based Java system and an existing MySQL database. This phase focuses on creating a modern user API that coexists with the legacy system while ensuring data consistency and security.
+The Crowdsourced Ideation Solution (CIS) aims to integrate with a legacy CLI-based Java system and an existing MySQL database. Additionally, MongoDB can now be used as an alternative database for storing user data. This phase focuses on creating a modern user API that coexists with the legacy system while ensuring data consistency and security.
 
 ![phase1.png](public%2Fimg%2Fphase1.png)
 
@@ -19,6 +19,28 @@ By the moment, to run the project it's highly recommended to configurate the App
 
 ![run_config_img](./public/img/run_config.png)
 
+## Database Configuration
+
+You can choose between using *MySQL* or *MongoDB* to store user data by setting the database.type property in the application's configuration file:
+
+properties
+# Use MySQL
+database.type=mysql
+
+# Use MongoDB
+database.type=mongo
+
+
+### MongoDB Setup
+
+To use MongoDB as the database, ensure that:
+- MongoDB is installed and running on your system or a remote server.
+- You have configured the correct MongoDB connection string in the application properties.
+
+### Example MongoDB connection string in application.properties:
+
+properties
+spring.data.mongodb.uri=mongodb://localhost:27017/your_database
 
 ## Maven dependency installation
 
@@ -31,6 +53,22 @@ And then try to run the `App.java`
 Try to make sure you have maven already installed. You can check this with:
 
 `mvn --version`
+
+## Database Configuration
+
+You can choose between using *MySQL* or *MongoDB* to store user data by setting the database.type property in the application's configuration file:
+
+### properties
+- Use MySQL: database.type=mysql
+- Use MongoDB: database.type=mongo
+
+
+### MongoDB Setup
+
+To use MongoDB as the database, ensure that:
+- MongoDB is installed and running on your system or a remote server.
+- You have configured the correct MongoDB connection string in the application properties.
+
 
 # Users API Documentation
 

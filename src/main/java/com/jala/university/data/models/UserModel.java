@@ -10,10 +10,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.UUID;
 
 @Setter
 @Getter
 @Entity
+@Document(collection = "users")
 @Table(name = "users")
 public class UserModel {
 
