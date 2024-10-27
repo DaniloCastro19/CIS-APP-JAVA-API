@@ -10,8 +10,8 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
 import org.junit.jupiter.api.Test;
 
-public class ApiConnectivityTests {
-    private static final String MONGO_URI = "mongodb://localhost:27017/cis_api";
+public class DatabaseConnectivityTests {
+    private static final String MONGO_URI = "mongodb://localhost:27017/sd3";
     private static final String MONGO_DATABASE = "sd3";
     private static final String MYSQL_URL = "jdbc:mysql://localhost:3307/sd3";
     private static final String USERNAME = "root";
