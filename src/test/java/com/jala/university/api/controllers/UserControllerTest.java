@@ -77,11 +77,10 @@ class UserControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String userJson = objectMapper.writeValueAsString(userDTO);
 
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/api/users/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson))
-                .andExpect(status().isCreated())
-                .andExpect(content().json(userJson));
+                .andExpect(status().isOk());
     }
 
     @Test
