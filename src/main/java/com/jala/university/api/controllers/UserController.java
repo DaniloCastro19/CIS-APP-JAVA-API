@@ -38,18 +38,14 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-        log.info("Creating a new user");
-        userValidator.validate(userDTO);
-        userDTO.setPassword(PassEncoder.passwordEncoder().encode(userDTO.getPassword()));
-        UserDTO user = userService.createUser(userDTO);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
-    }
-
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO) {
         log.info("Registering a new user");
+
+        if (userService.existsByLogin(userDTO.getLogin())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("User " + userDTO.getLogin() + " already exists.");
+        }
         userValidator.validate(userDTO);
         userDTO.setPassword(PassEncoder.passwordEncoder().encode(userDTO.getPassword()));
         UserDTO registeredUser = userService.createUser(userDTO);
