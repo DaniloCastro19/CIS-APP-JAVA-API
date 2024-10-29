@@ -41,6 +41,11 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO) {
         log.info("Registering a new user");
+
+        if (userService.existsByLogin(userDTO.getLogin())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("User " + userDTO.getLogin() + " already exists.");
+        }
         userValidator.validate(userDTO);
         userDTO.setPassword(PassEncoder.passwordEncoder().encode(userDTO.getPassword()));
         UserDTO registeredUser = userService.createUser(userDTO);

@@ -70,6 +70,10 @@ public class UserService {
                 });
     }
 
+    public boolean existsByLogin(String login) {
+        return userRepository.getUserByLogin(login).isPresent();
+    }
+
     @Transactional
     public boolean deleteUser(String id) {
         Optional<UserModel> user = userRepository.getUserById(id);
