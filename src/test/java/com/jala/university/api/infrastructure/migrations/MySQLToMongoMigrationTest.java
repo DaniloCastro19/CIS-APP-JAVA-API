@@ -20,10 +20,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class MySQLToMongoMigrationTest {
 
     @Container
-    private static final MySQLContainer<?> mysqlContainer = new MySQLContainer<>(DockerImageName.parse("mysql:8.0"))
-            .withDatabaseName("test_db")
-            .withUsername("test_user")
-            .withPassword("test_pass");
+    private static final MySQLContainer<?> mysqlContainer = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.4"))
+            .withDatabaseName("sd3")
+            .withUsername("root")
+            .withPassword("sd5");
 
     @Container
     private static final MongoDBContainer mongoDBContainer = new MongoDBContainer(DockerImageName.parse("mongo:5.0.0"));
@@ -76,7 +76,7 @@ class MySQLToMongoMigrationTest {
     void testMongoDBConnection() {
         assertDoesNotThrow(() -> {
             mongoClient = MongoClients.create(mongoDBContainer.getReplicaSetUrl());
-            MongoDatabase database = mongoClient.getDatabase("test_db");
+            MongoDatabase database = mongoClient.getDatabase("sd3");
             assertNotNull(database);
             database.listCollectionNames().first();
         }, "Connection to MongoDB should be established successfully");
@@ -107,7 +107,7 @@ class MySQLToMongoMigrationTest {
         mongoClient = MongoClients.create(mongoDBContainer.getReplicaSetUrl());
         mongoClient.close();
         assertThrows(Exception.class, () ->
-                mongoClient.getDatabase("test_db").listCollectionNames().first()
+                mongoClient.getDatabase("sd3").listCollectionNames().first()
         );
     }
 }
